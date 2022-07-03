@@ -1,5 +1,4 @@
 from aiohttp import ClientSession
-from ..logger import info
 
 
 class AbstractDataProvider:
@@ -8,7 +7,6 @@ class AbstractDataProvider:
         """
         Initialize the data provider with the current page
         """
-        info('Initializing {}'.format(self.__class__.__name__))
         self.current_page = current_page
         self.step = step
         self.finish_page = finish_page
@@ -25,22 +23,18 @@ class AbstractDataProvider:
         """
         Get the specified url
         """
-        info('Fetching {}'.format(url))
         return self.__client.get(url)
 
     def post(self, url, json=None):
         """
         Post the specified url
         """
-        info('Fetching {}'.format(url))
         return self.__client.post(url, json=json)
 
     async def __aenter__(self):
-        info('Entering context {}'.format(self.__class__.__name__))
         return self
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
-        info('Exiting context {}'.format(self.__class__.__name__))
         await self.__client.close()
 
     def __aiter__(self):

@@ -1,5 +1,6 @@
-from asyncio import run
-from pcrawler.crawler import CodeForcesCrawler, LeetCodeApiExplorer
+from typer import Typer, echo
+from enum import Enum
+from crawler import CodeForcesCrawler, LeetCodeApiExplorer
 
 
 async def fetch_codeforces():
@@ -14,5 +15,23 @@ async def fetch_leetcode():
             print(problems)
 
 
-if __name__ == '__main__':
-    run(fetch_leetcode())
+app = Typer()
+
+
+class CrawlSource(Enum):
+    codeforces = CodeForcesCrawler
+    leetcode = LeetCodeApiExplorer
+
+
+@app.command()
+def crawl(source: CrawlSource):
+    echo(source)
+
+
+@app.command()
+def shell():
+    pass
+
+
+if __name__ == "__main__":
+    app()

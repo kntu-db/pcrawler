@@ -1,7 +1,9 @@
+from hashlib import sha1
 from .base import AbstractApiExplorer
 from ..data import Problem
 from json import loads
 from asyncio import gather, ensure_future
+from datetime import datetime
 
 
 class LeetCodeApiExplorer(AbstractApiExplorer):
@@ -116,18 +118,27 @@ query questionData($titleSlug: String!) {
 }
 """
 
-    PAGE_SIZE = 50
+    PAGE_SIZE = 100
+
+    DIFFICULTY_MAP = {
+        'Easy': 1000,
+        'Medium': 2000,
+        'Hard': 3000,
+    }
 
     @staticmethod
     def __json_to_problem(data):
         p = Problem()
-        p.id = data['questionId']
+        p.id = int(data['questionId'])
         p.title = data['title']
         p.tags = [tag['name'] for tag in data['topicTags']]
-        p.difficulty_class = data['difficulty']
+        p.difficulty = LeetCodeApiExplorer.DIFFICULTY_MAP.get(data['difficulty'], 2000)
         status = loads(data['stats'])
-        p.solved = status['totalAcceptedRaw']
-        p.total = status['totalSubmissionRaw']
+        p.solved = int(status['totalAcceptedRaw'])
+        p.total = int(status['totalSubmissionRaw'])
+        p.time_step = datetime.now()
+        p.site = 'leetcode'
+        p.uid = sha1((p.site + p.title).encode('UTF-8')).hexdigest()
         return p
 
     async def __fetch_problem(self, title_slug):
