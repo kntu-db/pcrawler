@@ -118,7 +118,7 @@ query questionData($titleSlug: String!) {
 }
 """
 
-    PAGE_SIZE = 100
+    PAGE_SIZE = 50
 
     DIFFICULTY_MAP = {
         'Easy': 1000,
@@ -127,7 +127,7 @@ query questionData($titleSlug: String!) {
     }
 
     @staticmethod
-    def __json_to_problem(data):
+    def _json_to_problem(data):
         p = Problem()
         p.id = int(data['questionId'])
         p.title = data['title']
@@ -149,7 +149,7 @@ query questionData($titleSlug: String!) {
         }
         async with self.post(self.__GRAPHQL_ENDPOINT, json=query) as resp:
             data = await resp.json()
-        return LeetCodeApiExplorer.__json_to_problem(data['data']['question'])
+        return LeetCodeApiExplorer._json_to_problem(data['data']['question'])
 
     async def __fetch_list(self, skip, limit):
         query = {

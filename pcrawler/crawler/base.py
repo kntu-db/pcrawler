@@ -57,4 +57,6 @@ class AbstractWebCrawler(AbstractDataProvider):
 
 
 class AbstractApiExplorer(AbstractDataProvider):
-    pass
+    @staticmethod
+    def _json_to_problem(data):
+        raise NotImplementedError

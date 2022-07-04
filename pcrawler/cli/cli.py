@@ -1,23 +1,24 @@
 from asyncio import run
 from enum import Enum
 
-from typer import Typer, echo, progressbar, secho, colors
+from typer import Typer, progressbar, secho, colors
 
 from pcrawler.cli.shell import Shell
-from pcrawler.crawler import CodeForcesCrawler, LeetCodeApiExplorer
+from pcrawler.crawler import CodeForcesCrawler, LeetCodeApiExplorer, CodeChefApiExplorer
 from pcrawler.data.repository import ProblemRepository
 
 app = Typer()
 repository = ProblemRepository()
 
 crawl_sources = {
-    s.__name__: s for s in (CodeForcesCrawler, LeetCodeApiExplorer)
+    s.__name__: s for s in (CodeForcesCrawler, LeetCodeApiExplorer, CodeChefApiExplorer)
 }
 
 
 class CrawlChoice(Enum):
     CodeForcesCrawler = "codeforces"
     LeetCodeApiExplorer = "leetcode"
+    CodeChefApiExplorer = "codechef"
 
 
 async def crawl_source(provider_class, pages):
