@@ -1,7 +1,7 @@
-from .base import AbstractWebCrawler
+from pcrawler.crawler.base import AbstractWebCrawler
 from bs4 import BeautifulSoup
 from re import search
-from ..data import Problem
+from pcrawler.data import Problem
 from datetime import datetime
 from hashlib import sha1
 

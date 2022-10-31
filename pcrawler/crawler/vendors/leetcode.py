@@ -1,6 +1,6 @@
 from hashlib import sha1
-from .base import AbstractApiExplorer
-from ..data import Problem
+from pcrawler.crawler.base import AbstractApiExplorer
+from pcrawler.data import Problem
 from json import loads
 from asyncio import gather, ensure_future
 from datetime import datetime
@@ -127,7 +127,7 @@ query questionData($titleSlug: String!) {
     }
 
     @staticmethod
-    def _json_to_problem(data):
+    def _json_to_entity(data):
         p = Problem()
         p.id = int(data['questionId'])
         p.title = data['title']
@@ -149,7 +149,7 @@ query questionData($titleSlug: String!) {
         }
         async with self.post(self.__GRAPHQL_ENDPOINT, json=query) as resp:
             data = await resp.json()
-        return LeetCodeApiExplorer._json_to_problem(data['data']['question'])
+        return LeetCodeApiExplorer._json_to_entity(data['data']['question'])
 
     async def __fetch_list(self, skip, limit):
         query = {

@@ -1,3 +1,2 @@
-from .codeforces import CodeForcesCrawler
-from .leetcode import LeetCodeApiExplorer
-from .codechef import CodeChefApiExplorer
+from .vendors.okalacom import OkalaApiExplorer
+from .vendors.snappmarket import SnappMarketApiExplorer

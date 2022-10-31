@@ -1,3 +1,5 @@
+from abc import ABC
+
 from aiohttp import ClientSession
 
 
@@ -52,11 +54,11 @@ class AbstractDataProvider:
         return page
 
 
-class AbstractWebCrawler(AbstractDataProvider):
+class AbstractWebCrawler(AbstractDataProvider, ABC):
     pass
 
 
-class AbstractApiExplorer(AbstractDataProvider):
+class AbstractApiExplorer(AbstractDataProvider, ABC):
     @staticmethod
-    def _json_to_problem(data):
+    def _json_to_entity(data):
         raise NotImplementedError
